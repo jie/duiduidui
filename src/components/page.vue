@@ -1,48 +1,76 @@
 <template>
   <div>
-
+    <x-header>{{ title }}</x-header>
+    <div style="padding: 20px">
+      <img v-if="currentSrc" :src="currentSrc" :alt="errAlt" style="display: block; margin: 0 auto; width: 200px">
+      <div style="display: block; margin: 0 auto; width: 200px; text-align: center; min-height: 230px; vertical-align: middle" v-else>
+        <spinner type="android" slot="value" size="40" style="margin-top: 50px;"></spinner>
+      </div>
+    </div>
+    <div class="comments" v-if="currentRecord.comment">
+      <div class="comment">
+        <div class="avatar">
+          <img src="../assets/avatar.png" alt="" width="40" height="40">
+        </div>
+        <div class="speech">
+          <hgroup class="speech-bubble">
+            <div class="speech-content" style="min-height: 40px">{{ currentRecord.comment }}</div>
+          </hgroup>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { Group, Cell } from 'vux'
+import { Group, Cell, XHeader, Spinner } from 'vux'
+import techRecords from '@/data/tech'
 
 export default {
   components: {
     Group,
-    Cell
+    Cell,
+    XHeader,
+    Spinner
+  },
+  created() {
+    this.getImage()
+  },
+  watch: {
+      '$route': 'getImage'
   },
   data () {
     return {
+      techRecords: techRecords,
+      currentRecord: '',
+      currentSrc: '',
+      title: '',
+      errAlt: ''
     }
   },
   methods: {
-    pages: [
-      {
-        key: 'http://owxg7bsq3.bkt.clouddn.com/%E5%9F%BA%E6%9C%AC%E6%90%93%E7%90%831.gif',
-        value: '基本搓球1',
-      },
-      {
-        key: 'http://owxg7bsq3.bkt.clouddn.com/%E5%9F%BA%E6%9C%AC%E6%90%93%E7%90%832.gif',
-        value: '基本搓球2',
-      },
-      {
-        key: 'http://owxg7bsq3.bkt.clouddn.com/%E5%9F%BA%E6%9C%AC%E6%90%93%E7%90%833.gif',
-        value: '基本搓球3',
-      },
-      {
-        key: 'http://owxg7bsq3.bkt.clouddn.com/%E4%B8%AD%E6%AF%92%E5%BF%AB%E9%80%9F%E7%90%831.gif',
-        value: '中毒快速球1',
-      },
-      {
-        key: 'http://owxg7bsq3.bkt.clouddn.com/%E5%B7%A6%E4%BE%A7%E5%80%92%E9%92%A91.gif',
-        value: '左侧倒钩1',
-      },
-      {
-        key: 'http://owxg7bsq3.bkt.clouddn.com/%E5%B0%8F%E8%A7%92%E5%BA%A6%E9%95%BF%E8%B7%9D%E7%A6%BB%E8%82%89%E6%90%8F1.gif',
-        value: '小角度长距离肉搏1',
+    getImage() {
+      for(let item in this.techRecords) {
+        let obj = this.techRecords[item]
+        if(this.$route.params.key == obj.value) {
+          setTimeout(() => {
+            this.currentRecord = obj
+            this.loadImage(obj.link)
+            this.title = obj.name
+          }, 1000)
+        }
       }
-    ]
+    },
+    loadImage(src) {
+      let newImg = new Image()
+      newImg.src = src
+      newImg.onerror = () => {
+        this.errAlt = '请刷新页面重试'
+      }
+      newImg.onload = () => {
+          this.currentSrc = newImg.src
+      }
+    }
   }
 }
 </script>

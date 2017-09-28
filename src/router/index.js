@@ -13,7 +13,7 @@ export default new Router({
       component: home
     },
     {
-      path: '/page/:pageName',
+      path: '/page/:key',
       name: 'page',
       component: page
     }
