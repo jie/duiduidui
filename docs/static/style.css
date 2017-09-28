@@ -1,0 +1,48 @@
+.speech-bubble {
+	position: relative;
+	background: #eee;
+	border-radius: .4em;
+  width: 100%;
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 9px solid transparent;
+	border-right-color: #eee;
+	border-left: 0;
+	margin-top: -9px;
+	margin-left: -9px;
+}
+
+.speech-content {
+  font-size: 0.8em;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+  color: #999;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  float: left;
+  margin-right: 20px;
+}
+
+.avatar img {
+  border-radius: 20px;
+}
+
+.speech {
+  margin-left: 60px;
+}
+
+.comments {
+  padding: 10px;
+}
